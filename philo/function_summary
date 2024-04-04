@@ -1,0 +1,27 @@
+memset: This function is used to fill a block of memory with a particular value. It takes a pointer to the starting memory location, the value to be set, and the number of bytes to be set.
+
+printf: A function used for formatted output. It prints data to the standard output stream (usually the console). It allows formatting options to control how the output is displayed.
+
+malloc: Used for dynamic memory allocation. It allocates a block of memory of a specified size and returns a pointer to the beginning of that block.
+
+free: This function deallocates the memory previously allocated by malloc or a related function. It frees up the memory for further use in the program.
+
+write: Used for writing data to a file descriptor. It's commonly used for low-level file I/O operations, such as writing to files or writing to standard output.
+
+usleep: Pauses the program execution for a specified number of microseconds. It's typically used for adding delays in code execution.
+
+gettimeofday: Retrieves the current time of day and timezone information. It's often used for measuring time intervals or for timestamping events.
+
+pthread_create: Creates a new thread in a multi-threaded program. It takes several parameters, including a pointer to a thread identifier, thread attributes, a start routine, and optional arguments.
+
+pthread_detach: Detaches a thread, allowing its resources to be reclaimed automatically by the system when the thread exits. It's typically used to indicate that the main thread will not join with this thread later.
+
+pthread_join: Waits for a thread to terminate. It suspends the execution of the calling thread until the target thread has terminated.
+
+pthread_mutex_init: Initializes a mutex (mutual exclusion) object with the default attributes or with attributes specified by the programmer.
+
+pthread_mutex_destroy: Destroys a mutex object, releasing any resources associated with it.
+
+pthread_mutex_lock: Locks a mutex object, blocking the calling thread if the mutex is already locked by another thread.
+
+pthread_mutex_unlock: Unlocks a previously locked mutex object, allowing other threads to acquire the lock.
