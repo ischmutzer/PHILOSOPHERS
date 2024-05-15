@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 14:29:27 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:16:09 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,33 @@ int philo_atoi(const char *str)
         i++;
     }
     return (res * sign);
+}
+
+int	check_whether_valid_input(int argc, char **args)
+{
+	int	num;
+	int	i;
+
+	i = 0;
+	if (argc == 5 || argc == 6)
+	{
+		while (args[++i])
+		{
+			num = philo_atoi(args[i]);
+            if (num <= 0)
+                return (printf("Error: invalid argument\n"), 1);
+		}
+		return (0);
+	}
+	else
+		return (printf("Error: wrong number of arguments\n"), 1);
+}
+
+int ft_get_time(void)
+{
+	struct timeval  tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (printf("Error: gettimeofday failed\n"), 1);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

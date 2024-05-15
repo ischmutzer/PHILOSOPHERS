@@ -6,6 +6,7 @@ FLAGS = -Wall -Wextra -Werror -g
 
 SRCS = philosophers.c\
 philo_helpers.c\
+struct_init.c\
 
 OBJS := $(SRCS:%.c=%.o)
 
