@@ -2,9 +2,10 @@ NAME = philosophers
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 SRCS = philosophers.c\
+philo_helpers.c\
 
 OBJS := $(SRCS:%.c=%.o)
 
@@ -24,4 +25,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY all clean fclean re
+.PHONY: all clean fclean re
