@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:04:45 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 19:29:06 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:41:36 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,6 @@
 //#include <cstdlib>
 #include <pthread.h>
 #include <string.h>
-
-// void	fill_data_struct(t_data *data, char **philo_info)
-// {
-// 	data->num_philo = philo_atoi(philo_info[0]);
-// 	data->death_time = philo_atoi(philo_info[1]);
-// 	data->meal_time = philo_atoi(philo_info[2]);
-// 	data->sleepy_time = philo_atoi(philo_info[3]);
-// 	if (philo_info[4])
-// 		data->num_meals = philo_atoi(philo_info[4]);
-// 	else
-// 	 	data->num_meals = -1;
-// }
-
-// void	*philo_routine(void *arg)
-// {
-// 	t_data	*data;
-// 	t_args	*args;
-
-// 	data = (t_data *)arg;
-// 	args = &data->args;
-// 	while (1)
-// 	{
-// 		//eat
-// 		//sleep
-// 		//think
-// 	}
-// }
 
 // void	*monitor(void *data)
 // {
@@ -57,21 +30,38 @@
 // 	}
 // }
 
-// void	philo_creator(t_data *data)
-// {
-// 	int			i;
+void	*philo_routine(void *arg)
+{
+	t_data	*data;
+	t_args	*args;
 
-// 	i = -1;
-// 	while (++i < data->num_philo)
-// 	{
-// 		//fill 
-// 		// if (i == data->num_philo)
-// 		// 	pthread_create(&philo[i], NULL, monitor, data);
+	data = (t_data *)arg;
+	args = &data->args;
+	while (1)
+	{
+		//eat
+		//sleep
+		//think
+	}
+}
 
-// 		if (pthread_create(&philo[i], NULL, philo_routine, data))
-// 			printf("Error: pthread_create failed\n");
-// 	}
-// }
+void	philo_creator(t_data *data)
+{
+	int			i;
+
+	i = -1;
+	if (data->flag == 1)
+	{
+		printf("Philo is dead\n");
+		return ;
+	}
+	while (++i < data->philos[0].num_philo)
+	{
+		if (pthread_create(&data->philos[i].thread, NULL, philo_routine, &data->philos[i]))
+			printf("Error: pthread_create failed\n");
+	}
+	pthread_join(data->philos[0].thread, NULL);
+}
 
 int	main(int argc, char **argv)
 {

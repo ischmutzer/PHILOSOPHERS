@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 19:25:42 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:39:53 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+# ifndef MAX_COUNT
+#  define MAX_COUNT 201 // I think philo_count doesnt work, so i might need to allocate unnecesarilly large array
+# endif
 
 //x = time in ms
 typedef struct s_philo
