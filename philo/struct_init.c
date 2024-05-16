@@ -6,13 +6,13 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 19:20:36 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:26:59 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*data_init(t_data *data, int philo_count)
+void	data_init(t_data *data, int philo_count)
 {
 	t_philo	philos[philo_count];
 
@@ -21,7 +21,6 @@ t_philo	*data_init(t_data *data, int philo_count)
 	pthread_mutex_init(&data->death_lock, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
-	return (data->philos);
 }
 
 void	forks_init(pthread_mutex_t *forks, int philo_count)

@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 19:39:53 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:27:08 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ typedef struct s_data
 }	t_data;
 
 //philo_helpers.c
-int	philo_atoi(const char *str);
-int	check_whether_valid_input(int argc, char **args);
-int	ft_get_time(void);
+int		philo_atoi(const char *str);
+int		check_whether_valid_input(int argc, char **args);
+int		ft_get_time(void);
+void 	ft_usleep(t_data *data, int time);
 
 //struct_init.c
-t_philo	*data_init(t_data *data, int philo_count);
+void	data_init(t_data *data, int philo_count);
 void	forks_init(pthread_mutex_t *forks, int philo_count);
 void	philos_init(t_data *data, pthread_mutex_t *forks, t_philo *philos, char **argv);
 

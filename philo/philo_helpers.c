@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/15 19:16:09 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:31:36 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	check_whether_valid_input(int argc, char **args)
 		while (args[++i])
 		{
 			num = philo_atoi(args[i]);
+            if (num >= 200 && i == 1)
+                return (1);
             if (num <= 0)
                 return (printf("Error: invalid argument\n"), 1);
 		}
@@ -78,4 +80,17 @@ int ft_get_time(void)
 	if (gettimeofday(&tv, NULL) == -1)
 		return (printf("Error: gettimeofday failed\n"), 1);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void ft_usleep(t_data *data, int time)
+{
+    int start;
+
+    start = ft_get_time();
+    while (ft_get_time() - start < time)
+    {
+        if (data->flag == 1)
+            break;
+        usleep(100);
+    }
 }
