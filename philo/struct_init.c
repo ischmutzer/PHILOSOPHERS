@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/16 15:26:59 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:04:27 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	data_init(t_data *data, int philo_count)
 	t_philo	philos[philo_count];
 
 	data->flag = 0;
+	philos = malloc(sizeof(t_philo));
 	data->philos = philos;
 	pthread_mutex_init(&data->death_lock, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
