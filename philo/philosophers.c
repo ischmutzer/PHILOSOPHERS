@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:04:45 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/17 20:18:01 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:37:03 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void	*philo_routine(void *arg)
 {
@@ -62,28 +63,39 @@ void	*monitoring(void *arg)
 		//loop through all philo
 			//check each if they are done or dead
 		//unlock
-		if ()
 		if (data->flag == 1)
-			cleanup_philos(data, data->philo_count);
-		if (data->philos[0].num_meals != -1)
 		{
-			if (data->philos[i].meals_eaten == data->philos[0].num_meals)
-			{
-				counter++;
-				if (counter == data->philo_count)
-				{
-					data->flag = 1;
-				}
-				// if (i == (data->philo_count -1))
-				// {
-				// 	cleanup_philos(data, data->philo_count);
-				// 	break ;
-				// }
-				i++;
-			}
+			pthread_mutex_lock(&data->print_lock);
+			printf("Philo died\n");
+			pthread_mutex_unlock(&data->print_lock);
+			exit(1); //wrong way to handle it ->still it never exits
 		}
+		pthread_mutex_lock(&data->meal_lock);
+		while (i < data->philo_count)
+		{
+			if ((ft_get_time() - data->philos[i].last_meal) > data->philos[i].x_2_die)
+			{
+				pthread_mutex_lock(&data->death_lock);
+				data->flag = 1;
+				pthread_mutex_unlock(&data->death_lock);
+			}
+			if (data->philos[i].num_meals != -1)
+			{
+				if (data->philos[i].meals_eaten == data->philos[i].num_meals)
+				{
+					counter++;
+					if (counter == data->philo_count)
+					{
+						pthread_mutex_lock(&data->death_lock);
+						data->flag = 1;
+						pthread_mutex_unlock(&data->death_lock);
+					}
+				}
+			}
+			i++;
+		}
+		pthread_mutex_unlock(&data->meal_lock);
 	}
-	return (NULL);
 }
 
 void	philo_creator(t_data *data)

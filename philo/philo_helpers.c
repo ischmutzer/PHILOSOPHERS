@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/17 20:16:07 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:32:09 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int    lock_death(t_philo *philo)
     if (*(philo->dead_philo) == 1)
         return (1);
     pthread_mutex_unlock(philo->death_lock);
+    return (0);
 }
 
 void    lock_meal(t_philo *philo, int mode)
