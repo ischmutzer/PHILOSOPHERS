@@ -10,6 +10,8 @@ struct_init.c\
 
 OBJS := $(SRCS:%.c=%.o)
 
+RM = rm -rf
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
@@ -19,10 +21,13 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -c $< -o $@ -I./
 
 clean:
-	rm -f $(OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
-	rm -f$(NAME)
+	$(RM) $(NAME)
+
+test:	all
+			valgrind ./philosophers 10 200 50 200
 
 re: fclean all
 
