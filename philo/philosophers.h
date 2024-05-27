@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/17 20:15:56 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:51:03 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_data
 {
 	t_philo			*philos;
 
+	pthread_t		monitor;
+
 	pthread_mutex_t	death_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	meal_lock;
@@ -62,6 +64,7 @@ typedef struct s_data
 	int				flag;
 	int				start;
 	int				philo_count;
+	int				num_meals;
 
 }	t_data;
 
@@ -75,9 +78,10 @@ void    lock_n_print(t_philo *philo, int id, char *msg);
 int	    lock_death(t_philo *philo);
 void    lock_meal(t_philo *philo, int mode);
 void    cleanup_philos(t_data *data, int index);
+void    separate_group(int counter, t_philo *philo);
 
 //struct_init.c
-void	data_init(t_data *data, t_philo *philos);
+void	data_init(t_data *data, t_philo *philos, char **argv);
 void	forks_init(pthread_mutex_t *forks, int philo_count);
 void	philos_init(t_data *data, pthread_mutex_t *forks, t_philo *philos, char **argv);
 

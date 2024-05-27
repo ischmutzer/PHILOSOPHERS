@@ -6,24 +6,29 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/17 19:34:26 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:37:09 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	data_init(t_data *data, t_philo *philos)
+void	data_init(t_data *data, t_philo *philos, char **argv)
 {
 	//t_philo	*philos[philo_count];
 	//int		i;
 
-	data->flag = 0;
+	//data->flag = 0; //unnecesary ? bzero already sets start and flag to 0
+	//philo count gets set in main
 	//i = -1;
 	// while (++i <= philo_count)
 	// 	philos[i] = (t_philo *)malloc(sizeof(t_philo));
 	
 	//bzero(philos, sizeof(philos));
 	//printf("nphilo: %d", philos[0]->num_philo);
+	if (argv[5])
+		data->num_meals = philo_atoi(argv[5]);
+	else
+		data->num_meals = -1;
 	data->philos = philos;
 	pthread_mutex_init(&data->death_lock, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);

@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/17 20:32:09 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:50:19 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	check_whether_valid_input(int argc, char **args)
 			num = philo_atoi(args[i]);
             if (num >= 200 && i == 1)
                 return (1);
+            if (num == 0 && i == 1) //check for num of philo == 0
+                return (1);
             if (num <= 0)
                 return (printf("Error: invalid argument\n"), 1);
 		}
@@ -121,7 +123,10 @@ int    lock_death(t_philo *philo)
 {
     pthread_mutex_lock(philo->death_lock);
     if (*(philo->dead_philo) == 1)
+    {
+        pthread_mutex_unlock(philo->death_lock);
         return (1);
+    }
     pthread_mutex_unlock(philo->death_lock);
     return (0);
 }
@@ -145,9 +150,25 @@ void    cleanup_philos(t_data *data, int index)
     int i;
 
     i = 0;
+    if (index == -1)
+    {
+        if (pthread_join(data->monitor, NULL) != 0)
+            data->flag = 1;
+    }
     while (i <= index)
     {
         if (pthread_join(data->philos[i].thread, NULL) != 0)
             data->flag = 1;
+    }
+}
+
+void    separate_group(int counter, t_philo *philo)
+{
+    if (counter == 0)
+    {
+        if (philo->philo_id % 2)
+            return ;
+        else
+            ft_usleep(philo, (philo->x_2_eat - 50));
     }
 }
