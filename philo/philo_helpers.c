@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/27 18:50:19 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:28:18 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int check_space(const char c)
         return (0);
 }
 
-int philo_atoi(const char *str)
+int philo_atoi(const char *str) //its accepting a str that contains letters as well, so "./philo 2 850a 200b00 200c 5" is valid input rn
 {
     int i;
     int sign;
@@ -63,7 +63,7 @@ int	check_whether_valid_input(int argc, char **args)
 		while (args[++i])
 		{
 			num = philo_atoi(args[i]);
-            if (num >= 200 && i == 1)
+            if (num > 200 && i == 1)
                 return (1);
             if (num == 0 && i == 1) //check for num of philo == 0
                 return (1);
@@ -85,17 +85,23 @@ int ft_get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void ft_usleep(t_philo *philo, int time)
+int ft_usleep(t_philo *philo, int time)
 {
     int start;
 
     start = ft_get_time();
     while (ft_get_time() - start < time)
     {
+        pthread_mutex_lock(philo->death_lock);
         if (*(philo->dead_philo) == 1)
-            break;
-        usleep(100);
+        {
+            pthread_mutex_unlock(philo->death_lock);
+            return (1);
+        }
+        pthread_mutex_unlock(philo->death_lock);
+        usleep(50);
     }
+    return (0);
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -112,11 +118,30 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void    lock_n_print(t_philo *philo, int id, char *msg)
+void    lock_n_print(t_philo *philo, int id, char *msg, int mode)
 {
-    pthread_mutex_lock(philo->print_lock);
-    printf("%d %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
-    pthread_mutex_unlock(philo->print_lock);
+    if (mode == 0)
+    {
+        pthread_mutex_lock(philo->print_lock);
+        printf("%d %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
+        pthread_mutex_unlock(philo->print_lock);
+        return ;
+    }
+    else
+    {
+        if (lock_death(philo) == 1)
+            return ;
+        pthread_mutex_lock(philo->print_lock);
+        printf("%d %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
+        pthread_mutex_unlock(philo->print_lock);
+    }
+}
+
+void    change_flag(t_data *data)
+{
+	pthread_mutex_lock(&data->death_lock);
+	data->flag = 1;
+	pthread_mutex_unlock(&data->death_lock);
 }
 
 int    lock_death(t_philo *philo)
@@ -131,18 +156,29 @@ int    lock_death(t_philo *philo)
     return (0);
 }
 
-void    lock_meal(t_philo *philo, int mode)
+void    philo_is_eating(t_philo *philo)
 {
+    if (lock_death(philo) == 1)
+        return ;
     pthread_mutex_lock(philo->meal_lock);
-    if (mode == 1)
-        philo->is_eating = 1;
-    else if (mode == 0)
-        philo->is_eating = 0;
-    else if (mode == 2)
-        ++philo->meals_eaten;
-    else if (mode == 3)
-        philo->last_meal = ft_get_time();
+    ++philo->meals_eaten;
     pthread_mutex_unlock(philo->meal_lock);
+}
+
+void    philo_finished_eating(t_philo *philo)
+{
+    if (lock_death(philo) == 1)
+        return ;
+    pthread_mutex_lock(philo->meal_lock);
+    philo->last_meal = ft_get_time();
+    pthread_mutex_unlock(philo->meal_lock);
+}
+
+void    destroy_mutexes(t_data *data)
+{
+    pthread_mutex_destroy(&data->death_lock);
+    pthread_mutex_destroy(&data->print_lock);
+    pthread_mutex_destroy(&data->meal_lock);
 }
 
 void    cleanup_philos(t_data *data, int index)
@@ -160,15 +196,6 @@ void    cleanup_philos(t_data *data, int index)
         if (pthread_join(data->philos[i].thread, NULL) != 0)
             data->flag = 1;
     }
-}
-
-void    separate_group(int counter, t_philo *philo)
-{
-    if (counter == 0)
-    {
-        if (philo->philo_id % 2)
-            return ;
-        else
-            ft_usleep(philo, (philo->x_2_eat - 50));
-    }
+    destroy_mutexes(data);
+    free(data->philos);
 }

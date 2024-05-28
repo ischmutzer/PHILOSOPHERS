@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/27 18:37:09 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:02:05 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,6 @@
 
 void	data_init(t_data *data, t_philo *philos, char **argv)
 {
-	//t_philo	*philos[philo_count];
-	//int		i;
-
-	//data->flag = 0; //unnecesary ? bzero already sets start and flag to 0
-	//philo count gets set in main
-	//i = -1;
-	// while (++i <= philo_count)
-	// 	philos[i] = (t_philo *)malloc(sizeof(t_philo));
-	
-	//bzero(philos, sizeof(philos));
-	//printf("nphilo: %d", philos[0]->num_philo);
 	if (argv[5])
 		data->num_meals = philo_atoi(argv[5]);
 	else
@@ -69,7 +58,7 @@ void	philos_init(t_data *data, pthread_mutex_t *forks, t_philo *philos, char **a
 	{
 		philos[i].philo_id = i;
 		philos[i].meals_eaten = 0;
-		philos[i].is_eating = 0;
+		//philos[i].is_eating = 0;
 		philos[i].start = &data->start;
 		philos[i].last_meal = ft_get_time();
 		philos[i].x_2_die = philo_atoi(argv[2]);

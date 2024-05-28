@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/27 18:51:03 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:26:11 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <pthread.h>
 
 # ifndef MAX_COUNT
-#  define MAX_COUNT 201 // I think philo_count doesnt work, so i might need to allocate unnecesarilly large array
+#  define MAX_COUNT 201
 # endif
 
 //x = time in ms
@@ -31,14 +31,13 @@ typedef struct s_philo
 
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*death_lock;
 	pthread_mutex_t	*meal_lock;
 
 	int				philo_id;
 	int				meals_eaten;
-	int				is_eating;
-
 	int				*start;
 	int				last_meal;
 
@@ -72,13 +71,16 @@ typedef struct s_data
 int		philo_atoi(const char *str);
 int		check_whether_valid_input(int argc, char **args);
 int		ft_get_time(void);
-void 	ft_usleep(t_philo *philo, int time);
+int 	ft_usleep(t_philo *philo, int time);
 void	ft_bzero(void *s, size_t n);
-void    lock_n_print(t_philo *philo, int id, char *msg);
+void    lock_n_print(t_philo *philo, int id, char *msg, int mode);
 int	    lock_death(t_philo *philo);
-void    lock_meal(t_philo *philo, int mode);
+void    change_flag(t_data *data);
+void    philo_is_eating(t_philo *philo);
+void    philo_finished_eating(t_philo *philo);
+//void    lock_meal(t_philo *philo, int mode);
 void    cleanup_philos(t_data *data, int index);
-void    separate_group(int counter, t_philo *philo);
+int		pickup_forks(int counter, t_philo *philo);
 
 //struct_init.c
 void	data_init(t_data *data, t_philo *philos, char **argv);

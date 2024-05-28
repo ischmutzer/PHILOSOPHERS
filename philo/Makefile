@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo
 
 CC = cc
 
@@ -32,3 +32,6 @@ test:	all
 re: fclean all
 
 .PHONY: all clean fclean re
+
+run:	all
+			./$(NAME) 3 650 200 100 5 > file
