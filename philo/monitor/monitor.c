@@ -6,11 +6,25 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:30:52 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:51:24 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:06:46 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
+
+// int	check_meals_eaten(t_data *data, int index, int *counter)
+// {
+// 	pthread_mutex_lock(&data->meal_lock);
+// 	if (data->philos[index].meals_eaten >= data->num_meals)
+// 		(*counter++);
+// 	pthread_mutex_unlock(&data->meal_lock);
+// 	if (*counter == data->philo_count)
+// 	{
+// 		change_flag(data);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 void	*monitoring(void *arg)
 {
