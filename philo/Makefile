@@ -4,9 +4,24 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror -g
 
+HELP = helper_functions/
+
+INIT = init/
+
+PHILOS = philos/
+
+MONITOR = monitor/
+
 SRCS = philosophers.c\
-philo_helpers.c\
-struct_init.c\
+$(HELP)checker_atoi.c\
+$(HELP)clean_up.c\
+$(HELP)helper_functions.c\
+$(HELP)monitor_helper.c\
+$(HELP)routine_helper.c\
+$(INIT)struct_init1.c\
+$(INIT)struct_init2.c\
+$(MONITOR)monitor.c\
+$(PHILOS)routine.c
 
 OBJS := $(SRCS:%.c=%.o)
 
