@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/28 19:02:05 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:54:51 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	data_init(t_data *data, t_philo *philos, char **argv)
 	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
-void	forks_init(pthread_mutex_t *forks, int philo_count)
+void	forks_init(t_data *data, int philo_count)
 {
 	int	i;
 
 	i = -1;
 	while (++i < philo_count)
-		pthread_mutex_init(&forks[i], NULL);
+		pthread_mutex_init(&(data->forks)[i], NULL);
 }
 
 //Modulo:
@@ -49,16 +49,15 @@ void	forks_init(pthread_mutex_t *forks, int philo_count)
 //between two forks and can reach the fork to their immediate left and right.
 //The modulus operator (%) is used to create the circular effect,
 //where the last philosopher's right fork is the first fork in the array.
-void	philos_init(t_data *data, pthread_mutex_t *forks, t_philo *philos, char **argv)
+void	philos_init(t_data *data, t_philo *philos, char **argv)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data->philo_count)
 	{
-		philos[i].philo_id = i;
+		philos[i].philo_id = i + 1;
 		philos[i].meals_eaten = 0;
-		//philos[i].is_eating = 0;
 		philos[i].start = &data->start;
 		philos[i].last_meal = ft_get_time();
 		philos[i].x_2_die = philo_atoi(argv[2]);
@@ -70,8 +69,8 @@ void	philos_init(t_data *data, pthread_mutex_t *forks, t_philo *philos, char **a
 			philos[i].num_meals = -1;
 		philos[i].num_philo = philo_atoi(argv[1]);
 		philos[i].dead_philo = &data->flag;
-		philos[i].left_fork = &forks[i];
-		philos[i].right_fork = &forks[(i + 1) % philo_atoi(argv[1])];
+		philos[i].left_fork = &(data->forks)[i];
+		philos[i].right_fork = &(data->forks)[(i + 1) % philo_atoi(argv[1])];
 		philos[i].print_lock = &data->print_lock;
 		philos[i].death_lock = &data->death_lock;
 		philos[i].meal_lock = &data->meal_lock;

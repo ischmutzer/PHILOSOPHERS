@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/28 19:28:18 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:59:50 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	check_whether_valid_input(int argc, char **args)
 		return (printf("Error: wrong number of arguments\n"), 1);
 }
 
-int ft_get_time(void)
+size_t ft_get_time(void)
 {
 	struct timeval  tv;
 
@@ -87,10 +87,10 @@ int ft_get_time(void)
 
 int ft_usleep(t_philo *philo, int time)
 {
-    int start;
+    size_t start;
 
     start = ft_get_time();
-    while (ft_get_time() - start < time)
+    while ((ft_get_time() - start) < (size_t)time)
     {
         pthread_mutex_lock(philo->death_lock);
         if (*(philo->dead_philo) == 1)
@@ -118,23 +118,22 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void    lock_n_print(t_philo *philo, int id, char *msg, int mode)
+void    lock_print(t_data *data, int id, char *msg)
 {
-    if (mode == 0)
-    {
-        pthread_mutex_lock(philo->print_lock);
-        printf("%d %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
-        pthread_mutex_unlock(philo->print_lock);
+    pthread_mutex_lock(&data->print_lock);
+    //printf("1gettime: %lu start: %lu\n", ft_get_time(), data->start);
+    printf("%lu %d %s\n", (ft_get_time() - data->start), id, msg);
+    pthread_mutex_unlock(&data->print_lock);
+}
+
+void    lock_n_print(t_philo *philo, int id, char *msg)
+{
+    if (lock_death(philo) == 1)
         return ;
-    }
-    else
-    {
-        if (lock_death(philo) == 1)
-            return ;
-        pthread_mutex_lock(philo->print_lock);
-        printf("%d %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
-        pthread_mutex_unlock(philo->print_lock);
-    }
+    pthread_mutex_lock(philo->print_lock);
+    //printf("2gettime: %lu start: %lu\n", ft_get_time(), *(philo->start));
+    printf("%lu %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
+    pthread_mutex_unlock(philo->print_lock);
 }
 
 void    change_flag(t_data *data)
@@ -152,7 +151,8 @@ int    lock_death(t_philo *philo)
         pthread_mutex_unlock(philo->death_lock);
         return (1);
     }
-    pthread_mutex_unlock(philo->death_lock);
+    else
+        pthread_mutex_unlock(philo->death_lock);
     return (0);
 }
 
@@ -176,9 +176,14 @@ void    philo_finished_eating(t_philo *philo)
 
 void    destroy_mutexes(t_data *data)
 {
+    int i;
+
+    i = -1;
     pthread_mutex_destroy(&data->death_lock);
     pthread_mutex_destroy(&data->print_lock);
     pthread_mutex_destroy(&data->meal_lock);
+    while (++i < data->philo_count)
+        pthread_mutex_destroy(&data->forks[i]);
 }
 
 void    cleanup_philos(t_data *data, int index)
@@ -189,12 +194,17 @@ void    cleanup_philos(t_data *data, int index)
     if (index == -1)
     {
         if (pthread_join(data->monitor, NULL) != 0)
-            data->flag = 1;
+            change_flag(data);
+        return;
     }
-    while (i <= index)
+    else
     {
-        if (pthread_join(data->philos[i].thread, NULL) != 0)
-            data->flag = 1;
+        while (i < index)
+        {
+            if (pthread_join(data->philos[i].thread, NULL) != 0)
+                change_flag(data);
+            i++;
+        }
     }
     destroy_mutexes(data);
     free(data->philos);
