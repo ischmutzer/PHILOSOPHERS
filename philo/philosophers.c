@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:04:45 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:25:01 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:48:32 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	init_all(t_data *data, t_philo *philos, char **argv)
 	if (forks_init(data, data->philo_count))
 		return (1);
 	philos_init(data, philos, argv);
+	return (0);
 }
 
 int	main(int argc, char **argv)

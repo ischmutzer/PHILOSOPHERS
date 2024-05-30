@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:24:42 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:48:53 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	data_init(t_data *data, t_philo *philos, char **argv)
 		return (1);
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
 		return (1);
+	return (0);
 }
 
 int	forks_init(t_data *data, int philo_count)
