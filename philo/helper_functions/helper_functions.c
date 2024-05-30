@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 16:02:26 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:37:14 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:42:21 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ size_t	ft_get_time(void)
 	if (gettimeofday(&tv, NULL) == -1)
 		return (printf("Error: gettimeofday failed\n"), 1);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+static void	simulation_fail(t_philo *philo)
+{
+	pthread_mutex_lock(philo->death_lock);
+	*(philo->dead_philo) = 1;
+	pthread_mutex_unlock(philo->death_lock);
 }
 
 int	ft_usleep(t_philo *philo, int time)
@@ -36,7 +43,8 @@ int	ft_usleep(t_philo *philo, int time)
 			return (1);
 		}
 		pthread_mutex_unlock(philo->death_lock);
-		usleep(50);
+		if (usleep(50) == -1)
+			return (printf("usleep failed\n"), simulation_fail(philo), 1);
 	}
 	return (0);
 }

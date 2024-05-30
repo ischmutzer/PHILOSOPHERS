@@ -1,36 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_init2.c                                     :+:      :+:    :+:   */
+/*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:40:53 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:24:42 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	data_init(t_data *data, t_philo *philos, char **argv)
+int	data_init(t_data *data, t_philo *philos, char **argv)
 {
 	if (argv[5])
 		data->num_meals = philo_atoi(argv[5]);
 	else
 		data->num_meals = -1;
 	data->philos = philos;
-	pthread_mutex_init(&data->death_lock, NULL);
-	pthread_mutex_init(&data->print_lock, NULL);
-	pthread_mutex_init(&data->meal_lock, NULL);
+	if (pthread_mutex_init(&data->death_lock, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
+		return (1);
 }
 
-void	forks_init(t_data *data, int philo_count)
+int	forks_init(t_data *data, int philo_count)
 {
 	int	i;
 
 	i = -1;
 	while (++i < philo_count)
-		pthread_mutex_init(&(data->forks)[i], NULL);
+	{
+		if (pthread_mutex_init(&(data->forks)[i], NULL) != 0)
+			return (1);
+	}
+	return (0);
 }
 
 //Modulo:
@@ -56,7 +63,7 @@ void	philos_init(t_data *data, t_philo *philos, char **argv)
 	i = -1;
 	while (++i < data->philo_count)
 	{
-		philos[i].philo_id = i + 1;
+		philos[i].philo_id = i;
 		philos[i].meals_eaten = 0;
 		philos[i].start = &data->start;
 		philos[i].last_meal = ft_get_time();

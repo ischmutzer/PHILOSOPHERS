@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:35:35 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:40:07 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:36:01 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_philos(t_philo *philo, int id, char *msg)
 	if (lock_death(philo) == 1)
 		return ;
 	pthread_mutex_lock(philo->print_lock);
-	printf("%lu %d %s\n", (ft_get_time() - *(philo->start)), id, msg);
+	printf("%lu %d %s\n", (ft_get_time() - *(philo->start)), id + 1, msg);
 	pthread_mutex_unlock(philo->print_lock);
 }
 

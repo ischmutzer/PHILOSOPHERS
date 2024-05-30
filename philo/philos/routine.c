@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:10:25 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:20:52 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:32:50 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	pickup_forks(int counter, t_philo *philo)
 	if (philo->philo_id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		usleep(20);
+		usleep(50);
 		pthread_mutex_lock(philo->right_fork);
 	}
 	else
@@ -54,11 +54,20 @@ void	drop_forks(t_philo *philo)
 	}
 }
 
+void	routine_segment(t_philo *philo)
+{
+	print_philos(philo, philo->philo_id, "has taken a fork");
+	print_philos(philo, philo->philo_id, "has taken a fork");
+	philo_is_eating(philo);
+	print_philos(philo, philo->philo_id, "is eating");
+}
+
 void	*philo_routine(void *arg)
 {
-	t_philo	*philo = (t_philo*)arg;
+	t_philo	*philo;
 	int		count;
 
+	philo = (t_philo *)arg;
 	count = 0;
 	while (1)
 	{
@@ -66,10 +75,7 @@ void	*philo_routine(void *arg)
 			return (NULL);
 		if (pickup_forks(count, philo) == 1)
 			return (NULL);
-		print_philos(philo, philo->philo_id, "has taken a fork");
-		print_philos(philo, philo->philo_id, "has taken a fork");
-		philo_is_eating(philo);
-		print_philos(philo, philo->philo_id, "is eating");
+		routine_segment(philo);
 		if (ft_usleep(philo, philo->x_2_eat) == 1)
 			return (drop_forks(philo), NULL);
 		philo_finished_eating(philo);

@@ -18,8 +18,7 @@ $(HELP)clean_up.c\
 $(HELP)helper_functions.c\
 $(HELP)monitor_helper.c\
 $(HELP)routine_helper.c\
-$(INIT)struct_init1.c\
-$(INIT)struct_init2.c\
+$(INIT)struct_init.c\
 $(MONITOR)monitor.c\
 $(PHILOS)routine.c
 

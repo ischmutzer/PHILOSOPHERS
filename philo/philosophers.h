@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:52:40 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:24:30 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	philo_is_eating(t_philo *philo);
 void	philo_finished_eating(t_philo *philo);
 
 //struct_init.c
-void	data_init(t_data *data, t_philo *philos, char **argv);
-void	forks_init(t_data *data, int philo_count);
+int		data_init(t_data *data, t_philo *philos, char **argv);
+int		forks_init(t_data *data, int philo_count);
 void	philos_init(t_data *data, t_philo *philos, char **argv);
 
 //PHILOS ->routine.c

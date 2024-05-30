@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:04:45 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:51:08 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:25:01 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 
 void	*lone_philo(void *arg)
 {
-	t_philo *philo = (t_philo*)arg;
+	t_philo	*philo;
 
+	philo = (t_philo *)arg;
 	pthread_mutex_lock(philo->left_fork);
 	ft_usleep(philo, philo->x_2_die);
 	pthread_mutex_unlock(philo->left_fork);
@@ -61,6 +62,15 @@ void	handle_one_philo(t_data *data)
 	cleanup_philos(data, data->philo_count);
 }
 
+int	init_all(t_data *data, t_philo *philos, char **argv)
+{
+	if (data_init(data, philos, argv))
+		return (1);
+	if (forks_init(data, data->philo_count))
+		return (1);
+	philos_init(data, philos, argv);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data			data;
@@ -77,9 +87,11 @@ int	main(int argc, char **argv)
 	if (!data.forks)
 		return (free(philos), printf("malloc failed\n"), 1);
 	bzero(philos, sizeof(*philos));
-	data_init(&data, philos, argv);
-	forks_init(&data, data.philo_count);
-	philos_init(&data, philos, argv);
+	if (init_all(&data, philos, argv))
+		return (printf("Failure at initialization\n"), 1);
+	// data_init(&data, philos, argv);
+	// forks_init(&data, data.philo_count);
+	// philos_init(&data, philos, argv);
 	if (data.philo_count == 1)
 		handle_one_philo(&data);
 	else
