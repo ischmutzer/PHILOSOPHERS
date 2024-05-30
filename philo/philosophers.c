@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:04:45 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:48:32 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:33:46 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*lone_philo(void *arg)
 
 int	philo_creator(t_data *data)
 {
-	int			i;
+	int	i;
 
 	i = -1;
 	data->start = ft_get_time();
@@ -74,12 +74,12 @@ int	init_all(t_data *data, t_philo *philos, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_data			data;
-	t_philo			*philos;
+	t_data	data;
+	t_philo	*philos;
 
 	if (check_whether_valid_input(argc, argv))
 		return (1);
-	bzero(&data, sizeof(data));
+	memset(&data, 0, sizeof(data));
 	data.philo_count = philo_atoi(argv[1]);
 	philos = (t_philo *)malloc(data.philo_count * sizeof(t_philo));
 	if (!philos)
@@ -87,7 +87,7 @@ int	main(int argc, char **argv)
 	data.forks = malloc(sizeof(pthread_mutex_t) * data.philo_count);
 	if (!data.forks)
 		return (free(philos), printf("malloc failed\n"), 1);
-	bzero(philos, sizeof(*philos));
+	memset(philos, 0, sizeof(*philos));
 	if (init_all(&data, philos, argv))
 		return (printf("Failure at initialization\n"), 1);
 	// data_init(&data, philos, argv);

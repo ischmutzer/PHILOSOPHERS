@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:44:06 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:35:44 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:07:33 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void	cleanup_philos(t_data *data, int index)
 		}
 	}
 	destroy_mutexes(data);
+	free(data->forks);
 	free(data->philos);
 }

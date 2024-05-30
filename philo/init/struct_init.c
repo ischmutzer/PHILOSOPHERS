@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:48:53 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:10:26 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	philos_init(t_data *data, t_philo *philos, char **argv)
 		philos[i].philo_id = i;
 		philos[i].meals_eaten = 0;
 		philos[i].start = &data->start;
-		philos[i].last_meal = ft_get_time();
 		philos[i].x_2_die = philo_atoi(argv[2]);
 		philos[i].x_2_eat = philo_atoi(argv[3]);
 		philos[i].x_2_sleep = philo_atoi(argv[4]);
@@ -82,5 +81,6 @@ void	philos_init(t_data *data, t_philo *philos, char **argv)
 		philos[i].print_lock = &data->print_lock;
 		philos[i].death_lock = &data->death_lock;
 		philos[i].meal_lock = &data->meal_lock;
+		philos[i].last_meal = ft_get_time();
 	}
 }

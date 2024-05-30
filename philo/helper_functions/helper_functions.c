@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 16:02:26 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:42:21 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:41:27 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,4 @@ int	ft_usleep(t_philo *philo, int time)
 			return (printf("usleep failed\n"), simulation_fail(philo), 1);
 	}
 	return (0);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t		i;
-	char		*p;
-
-	i = 0;
-	p = s;
-	while (i < n)
-	{
-		p[i] = 0;
-		i++;
-	}
 }
