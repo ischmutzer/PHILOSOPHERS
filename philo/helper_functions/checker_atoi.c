@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:06:03 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/29 19:27:12 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:18:39 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	philo_atoi(const char *str)
 	return (res * sign);
 }
 
-int	check_str(char *str)
+static int	check_str(char *str)
 {
 	int	i;
 

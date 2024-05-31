@@ -6,34 +6,20 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:30:52 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 15:28:16 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:50:33 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 #include <pthread.h>
 
-// int	check_meals_eaten(t_data *data, int index, int *counter)
-// {
-// 	pthread_mutex_lock(&data->meal_lock);
-// 	if (data->philos[index].meals_eaten >= data->num_meals)
-// 		(*counter++);
-// 	pthread_mutex_unlock(&data->meal_lock);
-// 	if (*counter == data->philo_count)
-// 	{
-// 		change_flag(data);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-int	monitoring_checking_segment(t_data *data, int i, int counter)
+static int	monitoring_checking_segment(t_data *data, int i, int counter)
 {
 	while (i < data->philo_count)
 	{
 		pthread_mutex_lock(&data->meal_lock);
 		if ((ft_get_time() - data->philos[i].last_meal)
-			> (size_t)data->philos[i].x_2_die)
+			>= (size_t)data->philos[i].x_2_die)
 		{
 			change_flag(data);
 			print_monitor(data, data->philos[i].philo_id, "died");
@@ -68,7 +54,5 @@ void	*monitoring(void *arg)
 		counter = 0;
 		if (monitoring_checking_segment(data, i, counter))
 			return (NULL);
-		// REMOVE ITS ONLY FOR VALGRIND
-		usleep(200);
 	}
 }

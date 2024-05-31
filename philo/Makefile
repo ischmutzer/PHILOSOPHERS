@@ -20,6 +20,7 @@ $(HELP)monitor_helper.c\
 $(HELP)routine_helper.c\
 $(INIT)struct_init.c\
 $(MONITOR)monitor.c\
+$(PHILOS)lone_philo.c\
 $(PHILOS)routine.c
 
 OBJS := $(SRCS:%.c=%.o)

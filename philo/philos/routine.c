@@ -6,13 +6,13 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:10:25 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 19:42:25 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:50:51 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-int	pickup_forks(int counter, t_philo *philo)
+static int	pickup_forks(int counter, t_philo *philo)
 {
 	if (counter == 0)
 	{
@@ -40,7 +40,7 @@ int	pickup_forks(int counter, t_philo *philo)
 	return (0);
 }
 
-void	drop_forks(t_philo *philo)
+static void	drop_forks(t_philo *philo)
 {
 	if (philo->philo_id % 2 != 0)
 	{
@@ -54,7 +54,7 @@ void	drop_forks(t_philo *philo)
 	}
 }
 
-void	routine_segment(t_philo *philo)
+static void	routine_segment(t_philo *philo)
 {
 	print_philos(philo, philo->philo_id, "has taken a fork");
 	print_philos(philo, philo->philo_id, "has taken a fork");
@@ -78,7 +78,6 @@ void	*philo_routine(void *arg)
 		routine_segment(philo);
 		if (ft_usleep(philo, philo->x_2_eat) == 1)
 			return (drop_forks(philo), NULL);
-		philo_finished_eating(philo);
 		drop_forks(philo);
 		print_philos(philo, philo->philo_id, "is sleeping");
 		if (ft_usleep(philo, philo->x_2_sleep) == 1)

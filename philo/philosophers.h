@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:56:58 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 18:24:30 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:51:04 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	cleanup_philos(t_data *data, int index);
 //HELPER_FUNCTIONS ->helper_functions.c
 size_t	ft_get_time(void);
 int		ft_usleep(t_philo *philo, int time);
-void	ft_bzero(void *s, size_t n);
 
 //HELPER_FUCNTIONS ->monitor_helper.c
 void	print_monitor(t_data *data, int id, char *msg);
@@ -84,21 +83,18 @@ void	change_flag(t_data *data);
 void	print_philos(t_philo *philo, int id, char *msg);
 int		lock_death(t_philo *philo);
 void	philo_is_eating(t_philo *philo);
-void	philo_finished_eating(t_philo *philo);
 
 //struct_init.c
+int		init_all(t_data *data, t_philo *philos, char **argv);
 int		data_init(t_data *data, t_philo *philos, char **argv);
 int		forks_init(t_data *data, int philo_count);
 void	philos_init(t_data *data, t_philo *philos, char **argv);
 
-//PHILOS ->routine.c
-int		pickup_forks(int counter, t_philo *philo);
-void	drop_forks(t_philo *philo);
-void	*philo_routine(void *arg);
-
 //MONITOR ->monitor.c
 void	*monitoring(void *arg);
 
-int		init_n_malloc_struct(t_data *data, t_philo **philos, char **argv);
+//PHILOS ->routine.c
+void	handle_one_philo(t_data *data);
+void	*philo_routine(void *arg);
 
 #endif

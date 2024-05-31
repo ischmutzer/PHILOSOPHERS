@@ -6,11 +6,21 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:17:53 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 19:10:26 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:22:09 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
+
+int	init_all(t_data *data, t_philo *philos, char **argv)
+{
+	if (data_init(data, philos, argv))
+		return (1);
+	if (forks_init(data, data->philo_count))
+		return (1);
+	philos_init(data, philos, argv);
+	return (0);
+}
 
 int	data_init(t_data *data, t_philo *philos, char **argv)
 {

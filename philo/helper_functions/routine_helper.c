@@ -6,7 +6,7 @@
 /*   By: ischmutz <ischmutz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:35:35 by ischmutz          #+#    #+#             */
-/*   Updated: 2024/05/30 15:36:01 by ischmutz         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:50:59 by ischmutz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,6 @@ void	philo_is_eating(t_philo *philo)
 		return ;
 	pthread_mutex_lock(philo->meal_lock);
 	++philo->meals_eaten;
-	pthread_mutex_unlock(philo->meal_lock);
-}
-
-void	philo_finished_eating(t_philo *philo)
-{
-	if (lock_death(philo) == 1)
-		return ;
-	pthread_mutex_lock(philo->meal_lock);
 	philo->last_meal = ft_get_time();
 	pthread_mutex_unlock(philo->meal_lock);
 }
